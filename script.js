@@ -11,29 +11,36 @@ function multiply(a, b) {
 };
 
 function divide(a, b) {
-    return a / b;
+    if (b == 0) {
+        alert("a snarky message, please clear");
+    }
+    else {
+        return Math.round((a / b) * 100) / 100;
+    }
+    
 };
 
 let firstNum = 15;
 let secondNum = 3;
-let operator = {
+// console.log(typeof(firstNum));
+let operators = {
     "add" : "+",
     "subtract" : "-",
-    "multiply" : "*",
-    "divide" : "/",
+    "multiply" : "x",
+    "divide" : "÷",
 };
 
 function operate(firstNum, operatorStr, secondNum) { // operator can be +, -, * or / 
-    if (operatorStr == operator.add) {
+    if (operatorStr == operators.add) {
         return add(firstNum, secondNum);
     }
-    else if (operatorStr == operator.subtract) {
+    else if (operatorStr == operators.subtract) {
         return subtract(firstNum, secondNum);
     }
-    else if (operatorStr == operator.multiply) {
+    else if (operatorStr == operators.multiply) {
         return multiply(firstNum, secondNum);
     }
-    else if (operatorStr == operator.divide) {
+    else if (operatorStr == operators.divide) {
         return divide(firstNum, secondNum);
     };
 };
@@ -59,26 +66,44 @@ numbers.forEach((button) => {
     });
 });
 
+let num1 = 0;
+let operator = "";
+let nextOperator = "";
+
+const operateButtons = document.querySelectorAll('.operator');
+
+operateButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (operator == "") {
+            num1 = parseInt(display.textContent); 
+            operator = button.textContent;
+            display.textContent = "";
+            console.log(typeof(operator));
+            console.log(typeof(num1));
+        }
+        else {
+            let num2 = parseInt(display.textContent);
+            let answer = operate(num1, operator, num2);
+            display.textContent = answer;
+            nextOperator = button.textContent;
+
+            if (nextOperator == "=") {
+                operator = "";
+            }
+            else {
+                operator = button.textContent;
+                num1 = answer;
+                display.textContent = "";
+            };
+        };
+    });
+});
+
 const clear = document.querySelector('.clear');
 
 clear.addEventListener('click', () => {
     display.textContent = "";
+    num1 = 0;
+    operator = '';
+    nextOperator = '';
 });
-
-const operators = document.querySelectorAll('.operator');
-let operation = '';
-
-operators.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (typeof num1 == 'undefined') { 
-            let num1 = display.textContent;
-            operation = button.textContent;
-        }
-        else {
-            let num2 = display.textContent;
-            display.textContent = operate(parseInt(num1), operation, parseInt(num2));
-        }
-    });
-});
-
-
