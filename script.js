@@ -74,7 +74,10 @@ const operateButtons = document.querySelectorAll('.operator');
 
 operateButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        if (operator == "") {
+        if (button.textContent == '=' && operator == '') {
+            display.textContent = display.textContent;
+        }
+        else if (operator == "") {
             num1 = parseInt(display.textContent); 
             operator = button.textContent;
             display.textContent = "";
